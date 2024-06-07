@@ -1,0 +1,55 @@
+body{
+   background-color: #8fbc8f;
+   font-family: 'Poppins', sans-serif;
+}
+
+section.cards{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+}
+.box{
+    text-align: center;
+    width: 20%;    
+}
+.box .liste{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+.box .liste:hover{
+    box-shadow: 0 5px 10px 0 #A4199A;
+}
+
+ .box .liste .header{
+    background-color: #1d1357;
+    color: white;
+    font-size: 2rem;
+}
+
+.liste li {
+    background-color: white;
+    padding: 0.8rem;
+    text-transform: uppercase;
+    border-bottom: 1px solid black;
+}
+
+.liste li.aylik {
+    font-size: 1.8rem;
+}
+.liste li .dugme {
+    font-size: 1.7rem;
+    color:white;
+    background: linear-gradient(45deg,#591A7E,  #CCB3BC,#A4199A, #591A7E);
+    font-weight: bold;
+    text-decoration: none;
+    border: 1px solid black;
+    border-radius: 20px;
+    display: inline-block;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+.liste li .dugme:hover {
+    color:rgb(2, 40, 27);
+    opacity: 0.5;
+}

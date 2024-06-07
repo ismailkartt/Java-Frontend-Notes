@@ -1,0 +1,17 @@
+@use "mixins" as m;
+
+.list {
+    @include m.reset-list;
+    color: orangered;
+}
+
+.flex {
+    @include m.flexbox(row, center, center, 1rem);
+    // @include m.flexbox($justify-content: center);
+    @include m.reset-list;
+
+    a {
+        color: red;
+        text-decoration: none;
+    }
+}

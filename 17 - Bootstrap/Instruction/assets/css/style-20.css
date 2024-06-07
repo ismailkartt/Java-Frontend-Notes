@@ -1,0 +1,17 @@
+.container .row .card .card-footer  div {
+    border-right: 1px solid rgb(210, 220, 215);
+    flex-grow: 1;
+}
+.container .row .card .card-footer  div:last-child {
+    border-right:none;   
+}
+
+@media screen and (min-width:768px){
+    .container .row div[class^="col-"]:nth-child(2) .card {
+            transform: scale(1.1);
+            -webkit-transform: scale(1.1);
+            -moz-transform: scale(1.1);
+            -ms-transform: scale(1.1);
+            -o-transform: scale(1.1);
+        }
+}

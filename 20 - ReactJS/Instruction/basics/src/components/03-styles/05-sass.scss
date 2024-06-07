@@ -1,0 +1,36 @@
+$color1: rgb(16, 214, 16);
+$color2: rgb(0, 5, 155);
+$color3: rgb(255, 0, 0);
+
+.sass {
+    h2 {
+        color: $color1;
+    }
+
+    #heading {
+        font-style: italic;
+    }
+
+    .list {
+        text-align: center;
+        list-style-type: none;
+        padding: 0;
+
+        li {
+            color: $color1;
+            font-style: italic;
+        }
+    }
+
+    .article1 {
+        color: $color1;
+    }
+
+    .article2 {
+        color: $color2;
+    }
+
+    .article3 {
+        color: $color3;
+    }
+}

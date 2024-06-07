@@ -1,0 +1,15 @@
+:root{
+    --success:rgb(106, 229, 72);
+}
+.bg-success{
+    background-color: var(--success) !important ;
+}
+.text-success{
+    color: var(--success) !important;
+}
+.link-success{
+    color: var(--success) !important;
+}
+.border-success{
+    border : var(--success) !important;
+}

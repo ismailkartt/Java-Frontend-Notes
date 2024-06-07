@@ -1,0 +1,50 @@
+.icon-btn {
+  background-image: url("/assets/img/btn.png");
+  color: orange;
+  background-position: center;
+  background-repeat: none;
+  background-size: cover;
+  width: 50px;
+  height: 20px;
+  display: inline-block;
+}
+
+.icon-input {
+  color: red;
+}
+
+.icon-close {
+  color: green;
+}
+
+.icon-btn {
+  background-image: url("/assets/img/btn.png");
+  background-position: center;
+  background-repeat: none;
+  background-size: contain;
+  width: 50px;
+  height: 20px;
+  display: inline-block;
+}
+
+.icon-input {
+  background-image: url("/assets/img/input.png");
+  background-position: center;
+  background-repeat: none;
+  background-size: contain;
+  width: 50px;
+  height: 20px;
+  display: inline-block;
+}
+
+.icon-close {
+  background-image: url("/assets/img/close.png");
+  background-position: center;
+  background-repeat: none;
+  background-size: contain;
+  width: 50px;
+  height: 20px;
+  display: inline-block;
+}
+
+/*# sourceMappingURL=09-loops.css.map */

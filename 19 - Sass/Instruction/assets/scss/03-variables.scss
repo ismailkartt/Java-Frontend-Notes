@@ -1,0 +1,25 @@
+$colorBg: #333;
+$colorText: #fff;
+$colorPrimary: rgb(0, 42, 255);
+$borderRed: 1px solid $colorPrimary;
+
+input {
+    background-color: $colorBg;
+    color: $colorText;
+}
+
+button {
+    color: $colorPrimary;
+    height: 50px;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    border: $borderRed;
+
+    &:hover {
+        background-color: $colorPrimary;
+        color: $colorText;
+        border: $colorText;
+    }
+}

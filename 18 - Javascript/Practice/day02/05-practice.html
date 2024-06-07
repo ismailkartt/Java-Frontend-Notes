@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice-5</title>
+    <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
+    crossorigin="anonymous"
+  />
+  <style>
+body{
+  background-color: chocolate;
+}
+.kayit{
+    border: 3px solid rgb(52, 126, 29);
+    background-color: aquamarine;
+    width: 50%;
+    padding: 2rem;
+    margin: 5rem auto;
+}
+#mesaj{
+    font-size: 2rem;
+    font-weight: bold;
+    background-color: burlywood;
+    display: none;
+    color: purple;
+    margin-top: 1.5rem;
+    text-transform: uppercase;
+
+}
+
+
+
+  </style>
+
+
+</head>
+<body>
+  <div class="kayit">
+    <form action="">
+        <div class="mb-3">
+            <label for="ad" class="form-label" >Ad Soyad</label>
+            <input type="text" class="form-control" id="ad">
+        </div>
+
+        <div class="mb-3">
+            <label for="meslek" class="form-label" >Meslek</label>
+            <input type="text" class="form-control" id="meslek">
+        </div>
+        <button type="button" class="btn btn-primary" onclick="gonder()">Gonder</button>
+        <button type="reset" class="btn btn-danger" onclick="sil()">Temizle</button>
+
+    </form>
+
+    <div id="mesaj"></div>
+
+  </div>
+
+
+
+
+
+    
+    <script src="./js/05-app.js"></script>
+</body>
+</html>

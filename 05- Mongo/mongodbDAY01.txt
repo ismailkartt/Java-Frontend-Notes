@@ -1,0 +1,63 @@
+1//ekranı temizleme
+
+cls
+
+2//shop isminde bir DB oluşturalım.
+
+use shop
+
+3//hangi db deyim
+
+db
+
+4//mevcut DB leri listele
+
+show dbs
+
+5//customers isminde 
+//bir collection oluşturalım.
+
+db.createCollection("customers")
+
+6//mevcut collectionları görelim.
+db.getCollectionNames()
+
+7//customers collectionını silelim
+db.customers.drop()
+
+8//database i silelim.
+db.dropDatabase()
+
+9//yeni bir DB(products) ve
+ //collection(electronics)
+
+ use products
+
+ db.createCollection("electronics")
+
+ db.electronics.drop()
+
+ 10//collectiona döküman insert etme
+
+ db.electronics.insertOne({"name":"TV","price":230})
+
+ //NOT:collection oluşturmadan doğrudan
+ // insertOne
+ //kullanarak döküman eklenebilir.
+
+ //NOT:çift/tek tırnak kullanılabilir.
+
+ 11//bir kerede birden fazla döküman ekleme
+
+db.electronics.insertMany([{"name":"ipod","price":110},{"name":"iphone14"},{"name":"radio","price":53,"tax":10}])
+
+//NOT:birden fazla döküman array içerisinde
+//eklenmeli
+
+12//bir veya daha fazla döküman ekleyelim
+
+db.electronics.insert({"name":"iron","price":75})
+db.electronics.insert([{"price":123},{"name":"radio","tax":8}])
+//deprecated
+
+

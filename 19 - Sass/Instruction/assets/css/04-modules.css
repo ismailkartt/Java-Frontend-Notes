@@ -1,0 +1,22 @@
+h1 {
+  color: blue;
+  text-align: center;
+}
+
+input {
+  width: 250px;
+  height: 30px;
+  padding: 0.5rem 1rem;
+  border: 1px solid red;
+  border-radius: 5px;
+}
+
+button {
+  height: 50px;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  border: 1px solid red;
+  cursor: pointer;
+}
+
+/*# sourceMappingURL=04-modules.css.map */

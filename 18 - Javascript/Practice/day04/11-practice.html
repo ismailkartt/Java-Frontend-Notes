@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Practice-11</title>
+    <style>
+.container{
+    padding: 1rem;
+    background-color:rgba(0, 128, 0, 0.322);
+    width: 50%;
+}
+
+.container input,.container button{
+    padding: .5rem;
+    margin:0.5rem;
+    font-size: 1rem;
+
+}
+.container #mesaj{
+    color: rgb(170, 0, 255);
+    margin-top: 2rem;
+    text-align: center;
+
+}
+.yesil{
+    background-color: green;
+}
+.kirmizi{
+    background-color: red;
+}
+
+.sari{
+    background-color: yellow;
+}
+
+.invisible{
+    display: none;
+}
+
+
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+        <form action="">   
+      <input type="number" id="yas" name="yas" placeholder="yasinizi giriniz" />
+
+      <input type="radio" name="cinsiyet"  id="erkek" checked >
+      <label for="erkek" >Erkek</label>
+
+      <input type="radio" name="cinsiyet"  id="kadin"  >
+      <label for="kadin" >Kadin</label>
+
+      <button type="button" onclick="askerlikKontrol()">Askerlik Durumu</button>
+      <button type="reset"  onclick="temizle()">Temizle</button>
+    </form>
+
+      <p id="mesaj"></p>
+
+
+
+    </div>
+
+    <script src="./js/11-app.js"></script>
+  </body>
+</html>

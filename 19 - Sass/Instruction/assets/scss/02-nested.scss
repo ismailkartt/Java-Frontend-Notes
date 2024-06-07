@@ -1,0 +1,69 @@
+nav {
+    padding: 1rem;
+
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        li {
+            display: inline-block;
+
+            a {
+                display: block;
+                padding: 0.5rem 1rem;
+                text-decoration: none;
+                color: orange;
+            }
+        }
+    }
+
+    font-style: italic;
+}
+
+footer {
+    a {
+        color: red;
+    }
+}
+
+.alert,
+.warning {
+    ul,
+    p {
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.alert {
+    ul {
+        > li {
+            list-style: none;
+
+            > a {
+                color: red;
+            }
+        }
+
+        + p {
+            margin-top: 1rem;
+        }
+
+        ~ p {
+            text-decoration: underline;
+        }
+    }
+}
+
+.navbar {
+    a {
+        &:hover {
+            color: red;
+        }
+
+        &::before {
+            content: ">";
+        }
+    }
+}

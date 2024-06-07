@@ -1,0 +1,24 @@
+$btn: btn;
+$input: input;
+$close: close;
+$menu: menu;
+$del: del;
+
+.icon-#{$btn} {
+    background-image: url("/assets/img/#{$btn}.png");
+    color: orange;
+    background-position: center;
+    background-repeat: none;
+    background-size: cover;
+    width: 50px;
+    height: 20px;
+    display: inline-block;
+}
+
+.icon-#{$input} {
+    color: red;
+}
+
+.icon-#{$close} {
+    color: green;
+}

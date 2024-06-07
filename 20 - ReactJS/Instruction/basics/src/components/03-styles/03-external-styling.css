@@ -1,0 +1,11 @@
+.external-styling {
+    color: red;
+    margin: 2rem 0;
+    text-align: center;
+}
+
+#external-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}

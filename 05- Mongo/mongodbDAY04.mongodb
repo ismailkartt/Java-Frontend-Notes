@@ -1,0 +1,241 @@
+//-------------------DAY'4----------------------
+
+use("okul")
+db.exams.insertMany(
+[{"student":"dave", "midterm":80,  "final":100},
+{"student":"dave",  "midterm":85,  "final":52},
+{"student":"fred",  "midterm":60,  "final":100},
+{"student":"wilma", "midterm":55,  "final":50},
+{"student":"barnie","midterm":60,  "final":75},
+{"student":"wilma", "midterm":94,  "final":99},
+{"student":"betty", "midterm":95,  "final":91}]);
+
+use("okul")
+db.accounting.insertMany(
+[{"name":"dave", "expense":[-80, -40, -50, -120], "earn":[100, 150]},
+{"name":"dave",  "expense":[-60, -30, -20],       "earn":[200, 50, 130]},
+{"name":"fred",  "expense":[-80, -40, -50],       "earn":[300, 450]},
+{"name":"wilma", "expense":[-80, -120],           "earn":[500, 50, 70, 10]},
+{"name":"barnie","expense":[-140, -50, -120],     "earn":[400]},
+{"name":"wilma", "expense":[-120],                "earn":[22, 375, 65]},
+{"name":"betty", "expense":[-180, -40, -70, -12], "earn":[500, 650, 400]}]);
+
+
+//geçici olarak yeni bir field eklemek istersek?
+//8)exams içindeki midterm ve final değerlerinin toplamını gösteren bir geçici field ekleyiniz.
+use("okul");
+//db.exams.aggregate({$addFields:{result:{$sum:["$midterm","$final"]}, success:true}});
+db.exams.aggregate({$addFields:{result:{$add:["$midterm","$final"]}, success:true}});
+
+//9a) accounting içindeki herbir döküman için toplam expense, toplam earn değerlerini bulunuz.
+use("okul");
+db.accounting.aggregate({$addFields:{total_expense:{$sum:"$expense"} ,
+                                     total_earn:{$sum:"$earn"}}});
+
+//9b) accounting içindeki toplam expense, toplam earn ve net balance değerlerini bulunuz
+use("okul");
+/*var pipeline=[{$addFields:{total_expense:{$sum:"$expense"} ,
+                           total_earn:{$sum:"$earn"}}},
+              {$addFields:{net_balance:{$add:["$total_expense","$total_earn"]}}}];
+db.accounting.aggregate(pipeline);  
+*/            
+
+db.accounting.aggregate([{$addFields:{total_expense:{$sum:"$expense"} ,
+                                     total_earn:{$sum:"$earn"}}},
+                        {$addFields:{net_balance:{$add:["$total_expense","$total_earn"]}}}]);
+
+use("okul");
+db.accounting.find();//addFields ile geçici olarak field ekleriz.
+
+//9c) yukarıdaki sorguda netBalance degerini büyükten küçüğe sıralıyalım.
+use("okul");
+var pipeline=[{$addFields:{total_expense:{$sum:"$expense"} ,
+                           total_earn:{$sum:"$earn"}}},
+              {$addFields:{net_balance:{$add:["$total_expense","$total_earn"]}}},
+              {$sort:{"net_balance":-1}}];
+
+db.accounting.aggregate(pipeline);
+
+//9d) yukarıdakine ek olarak bazı fieldları görmek istemiyorsam ? 
+use("okul");
+var pipeline=[{$addFields:{total_expense:{$sum:"$expense"} ,
+                           total_earn:{$sum:"$earn"}}},
+              {$addFields:{net_balance:{$add:["$total_expense","$total_earn"]}}},
+              {$sort:{"net_balance":-1}},
+              {$project:{"_id":0,"name":1,"total_expense":1,"total_earn":1,"net_balance":1}}];
+              //görmek istediğimiz fieldları 1 ile belirttik
+db.accounting.aggregate(pipeline);
+//2.yol
+use("okul");
+var pipeline=[{$addFields:{total_expense:{$sum:"$expense"} ,
+                           total_earn:{$sum:"$earn"}}},
+              {$addFields:{net_balance:{$add:["$total_expense","$total_earn"]}}},
+              {$sort:{"net_balance":-1}},
+              {$project:{"_id":0,"expense":0, "earn":0}}]; //görmek istemediğimiz fieldları 0 a set ettik             
+db.accounting.aggregate(pipeline);
+
+//========================================
+//          bulkWrite()
+//========================================
+
+use("okul")
+db.stories.insertMany(
+[{"author":"dave", "score":75, "views": 200},
+{"author":"chris", "score":90, "views": 100},
+{"author":"dave", "score":35, "views": 3000},
+{"author":"mary", "score":80, "views": 350},
+{"author":"dave", "score":54, "views": 333},
+{"author":"mary", "score":97, "views": 2000}]);
+
+// Task : Aşağıdaki birden fazla komudu tek methodla nasıl yapabiliriz
+//    * Insert {"author":"mark","score":55, "views":555} ,
+//    * yazarı Dave olan ilk dökümanı score bilgisini 55 olarak güncelleyin ,
+//    * Yazarı :"chris" olan ilk dökümanı {"author":"chris tien","score":55} ile değiştirin ,
+//    * Yazarı "mary" olan ilk dökümanı silin .
+use("okul")
+db.stories.bulkWrite([{insertOne:{"document":{"author":"mark","score":55, "views":555}}},
+                      {updateOne:{"filter":{"author":"dave"},"update":{$set:{"score":55}}}},
+                      {replaceOne:{"filter":{"author":"chris"},"replacement":{"author":"chris tien","score":55}}},
+                      {deleteOne:{"filter":{"author":"mary"}}}]);
+
+//=========================================================
+//                  UNIONWITH ( Full Join )
+//=========================================================
+//
+// 2 farklı collectiondan datayı nasıl çekebiliriz ?
+// SQL de bunu joinler ile yapıyorduk
+//=========================================================                      
+
+use("MEDYA")
+db.romanlar.insertMany(
+[{"yazar": "Mehmet Bak",  "fiyat" : 60, "yayinEvi" : "Yildiz",   "adet": 1000 },//60000
+{"yazar" : "Ali Gel",     "fiyat" : 75, "yayinEvi" : "MaviAy",   "adet": 1200 },
+{"yazar" : "Su Ak",       "fiyat" : 90, "yayinEvi" : "Caliskan", "adet": 2200},
+{"yazar" : "Meryem Can",  "fiyat" : 35, "yayinEvi" : "MorEv",    "adet": 560},
+{"yazar" : "Pelin Su",    "fiyat" : 80, "yayinEvi" : "Hedef",    "adet": 890 },
+{"yazar" : "Suat Ok",     "fiyat" : 54, "yayinEvi" : "Sinir",    "adet": 245}]);
+
+
+use("MEDYA")
+db.denemeler.insertMany(
+[{"yazar": "Mehmet Bak",  "fiyat" : 34, "yayinEvi" : "Yildiz", "adet": 400 },//13600
+{"yazar" : "Deniz Kos",   "fiyat" : 44, "yayinEvi" : "Yildiz", "adet": 350 },//15400
+{"yazar" : "Su Ak",       "fiyat" : 50, "yayinEvi" : "MorEv", "adet": 200},
+{"yazar" : "İsmet Kaç",   "fiyat" : 25, "yayinEvi" : "Hedef","adet": 800},
+{"yazar" : "Ali Gel",     "fiyat" : 40, "yayinEvi" : "Hedef", "adet": 1200 },
+{"yazar" : "Meryem Can",  "fiyat" : 22, "yayinEvi" : "MaviAy","adet": 300}]);
+
+//1 ) Her 2 collectiondan tüm dökümanları "adet" sutununa (field) göre ters 
+// sıralıyarak listeyeliniz, id gözükmesin. 
+
+use("MEDYA")
+var pipeline=[{$unionWith:{coll:"denemeler"}},//collectionları birleştir
+              {$sort:{"adet":-1}},//adet fieldına göre sırala
+              {$project:{"_id":0}}
+              ];
+db.romanlar.aggregate(pipeline);
+
+
+use("MEDYA")
+db.denemeler.aggregate([{$unionWith:{coll:"romanlar"}},//collectionları birleştir
+                       {$sort:{"adet":-1}},//adet fieldına göre sırala
+                       {$project:{"_id":0}}
+                      ]);
+
+//2 ) Her bir yayınevinin toplam kitap sayılarını ( 2 collection için) hesaplayan
+// ve sıralayan query yazınız.
+use("MEDYA")
+var pipeline=[{$unionWith:{coll:"denemeler"}},//collec. birleştir.
+              {$group:{"_id":"$yayinEvi", toplam_kitap_sayisi:{$sum:"$adet"} }},//gruplama
+              {$sort:{toplam_kitap_sayisi:1}}//sırala
+];
+db.romanlar.aggregate(pipeline);
+
+//3 ) Her bir yayınevinin kitap (deneme veya roman) satıslarından elde edeceği
+// toplam geliri hesaplayan query yazınız
+use("MEDYA")
+var pipeline=[{$unionWith:{coll:"denemeler"}},//collec. birleştir.
+              {$group:{"_id":"$yayinEvi", toplam_gelir:{$sum:{$multiply:["$adet","$fiyat"]}} }}//gruplama
+            
+];
+db.romanlar.aggregate(pipeline);
+
+
+//==================================================================================
+//                       $LOOKUP (LEFT JOIN) 
+//    //1. collectionın hepsi, 2. collectiondan ortak olanlar görüntülenir. 
+//    {
+//      $lookup:
+//      {
+//        from: <Join uygulanacak İlişki kurulacak coll.>,
+//        localField: <giris dokumanindaki ilgili yani ilişki kuracak alanı>,
+//        foreignField: <Join yapilacak collectiondaki ilişki kurulacak alanı>,
+//        as: <İlişkilendirme sonucu eşleşen verilerin atanacağı yeni dizi alanı>
+//      },
+//      { $unwind:<field path> }//önceki stagedeki fieldı sonraki stage'e aktarır.
+//    }
+//==================================================================================
+use("MEDYA")
+db.romanlar.insertMany(
+[{"yazar": "Mehmet Bak",  "fiyat" : 60, "yayinEvi" : "Yildiz",   "adet": 1000 },//60000
+{"yazar" : "Ali Gel",     "fiyat" : 75, "yayinEvi" : "MaviAy",   "adet": 1200 },
+{"yazar" : "Su Ak",       "fiyat" : 90, "yayinEvi" : "Caliskan", "adet": 2200},
+{"yazar" : "Meryem Can",  "fiyat" : 35, "yayinEvi" : "MorEv",    "adet": 560},
+{"yazar" : "Pelin Su",    "fiyat" : 80, "yayinEvi" : "Hedef",    "adet": 890 },
+{"yazar" : "Suat Ok",     "fiyat" : 54, "yayinEvi" : "Sinir",    "adet": 245}]);
+
+
+use("MEDYA")
+db.siirler.insertMany(
+[{"muellif": "Mehmet Bak",   "fiyat" : 34, "yayinEvi" : "Yildiz", "adet": 400 },
+{"muellif" : "Ali Gel",      "fiyat" : 40, "yayinEvi" : "Hedef",  "adet": 1200 },
+{"muellif" : "Su Ak",        "fiyat" : 50, "yayinEvi" : "MorEv",  "adet": 200},
+{"muellif" : "Meryem Can",   "fiyat" : 22, "yayinEvi" : "MaviAy", "adet": 300},
+{"muellif" : "Deniz Kos",    "fiyat" : 44, "yayinEvi" : "Yildiz", "adet": 350 },
+{"muellif" : "İsmet Kaç",    "fiyat" : 25, "yayinEvi" : "Hedef",  "adet": 800}]);
+
+// QUERY: Her 2 collectionda (romanlar, şiirler) ortak olan yazarların toplam
+// kitap sayılarını ve  fiyat toplamını hesaplayan query yazınız
+
+//-----------------lookup ne yapıyor-------------------------
+use("MEDYA")
+db.romanlar.aggregate({
+                       $lookup: {
+                        from:"siirler" ,
+                        localField: "yazar",
+                        foreignField:"muellif",
+                        as:"ortak_yazarlar"
+}});
+
+//--------------------------------------------------------------
+use("MEDYA")
+var pipeline=[{ $lookup: {
+                from:"siirler" ,
+                localField: "yazar",
+                foreignField:"muellif",
+                as:"ortak_yazarlar"}},//siirlerden gelen döküman buraya alınıyor.
+              {$unwind:{path:"$ortak_yazarlar"}},
+              {$addFields:{toplam_kitap:{$sum:["$adet","$ortak_yazarlar.adet"]},
+                           toplam_fiyat:{$sum:["$fiyat","$ortak_yazarlar.fiyat"]}}},
+            {$project:{"_id":0,"toplam_kitap":1,"toplam_fiyat":1,"yazar":1}}               
+              
+];
+db.romanlar.aggregate(pipeline);
+
+//lookup:romanlardaki tüm dökümanları alır. as ile ortak_yazarlar içerisine 
+//       ortak olanları koyar.
+//unwind:ortak_yazarlar içerisindeki dökümanları yeni bir collection gibi
+//       sonraki stage(aşama)da kullanmak için aktarır.
+
+
+
+
+
+
+                     
+
+
+
+
+
+

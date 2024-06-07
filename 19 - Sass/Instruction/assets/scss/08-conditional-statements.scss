@@ -1,0 +1,19 @@
+@mixin avatar($boyut, $yuvarlak: false) {
+    width: $boyut;
+    height: $boyut;
+
+    @if $yuvarlak {
+        border-radius: 50%;
+    }
+}
+
+.avatar-container {
+    background-color: blue;
+    @include avatar(100px, true);
+    margin-bottom: 1rem;
+}
+
+.avatar-container2 {
+    background-color: red;
+    @include avatar(100px);
+}

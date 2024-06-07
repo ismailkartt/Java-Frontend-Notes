@@ -1,0 +1,16 @@
+{
+    "name": "sass_lesson",
+    "version": "1.0.0",
+    "description": "This is a lesson on how to use SASS.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "compile-sass": "sass ./assets/scss/:./assets/css/",
+        "watch-sass": "sass --watch ./assets/scss/:./assets/css/"
+    },
+    "author": "Halil ALGUL — Techproed",
+    "license": "ISC",
+    "devDependencies": {
+        "sass": "^1.66.1"
+    }
+}

@@ -1,0 +1,15 @@
+.btnSubmit, .btnView {
+  height: 50px;
+  padding: 0.5rem 1rem;
+  color: red;
+  border: 1px solid red;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btnView {
+  color: green;
+  border: 1px solid green;
+}
+
+/*# sourceMappingURL=07-inheritance.css.map */

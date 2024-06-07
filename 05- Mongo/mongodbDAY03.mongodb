@@ -1,0 +1,185 @@
+-------------DAY'3-------------------
+use ("products");
+db.electronics.find();
+
+38//price ı 230 olan ilk dökümanı bulup price ını 250
+//olarak güncelleyelim, GÜNCELLENMİŞ dökümanı görüntüleyelim..
+
+use ("products");
+db.electronics.findOneAndUpdate({"price":230},
+                                {$set:{"price":250}},
+                                {returnNewDocument:true});
+
+39//priceı 930 olan dökümanı bulup name:"GOLD", price:250 olarak
+//güncelleyelim eğer böyle bir döküman yoksa da ekleyelim.
+use ("products");
+db.electronics.findOneAndUpdate({"price":930},
+                                {$set:{"name":"GOLD","price":250}},
+                                {upsert:true,returnNewDocument:true});
+
+40//birden fazla dökümanı güncellemek isteersek
+//Fiyatı 300 den düşük olan bütün dökümanların ismini "Woww" yapalım.
+use ("products");
+db.electronics.updateMany({"price":{$lt:300}},{$set:{"name":"Woww"}});
+
+//veya
+use ("products");
+db.electronics.update({"price":{$lt:300}},
+                      {$set:{"name":"Wow"}},
+                      {multi:true});//deprecated
+
+//Fiyatı 300 den düşük olan bütün dökümanların price değerini
+// 2 ile çarpalım.                      
+use ("products");
+db.electronics.updateMany({"price":{$lt:300}},
+                          {$mul:{"price":2}});
+
+41//bir dökümanı silmek istersek
+//name'i  "en ucuz" olan ilk dökümanı silelim.                          
+use ("products");
+db.electronics.deleteOne({"name":"en ucuz"});
+
+42//birden fazla dökümanı silmek istersek
+//name'i "XYZ" olan tüm dökümanları silelim.
+use ("products");
+db.electronics.deleteMany({"name":"XYZ"});
+
+43//tüm dökümanları silelim
+use ("products");
+db.electronics.deleteMany({});
+//2.yol
+db.electronics.delete();//deprecated
+//3.yol
+use ("products");
+db.electronics.remove({});//deprecated
+
+44//yeni bir döküman ekleyelim
+use ("products");
+db.electronics.insertOne({"name":"laptop",
+                          "brand":{"name":"lenova", "model":243},
+                          "city":["istanbul","ankara"],
+                          "active":true});
+
+use ("products");
+db.electronics.find({"brand.model":243});
+use ("products");
+db.electronics.find({"city":"ankara"});
+
+//=================================================
+//                   AGGREGATION
+//=================================================
+// 1) Aggregation, dokumanlardaki verilerin islenmesi ve hesaplanan 
+//    sonuclarin donmesini saglayan islemlerdir. 
+//
+// 2) Aggregation islemleri, farklı dokumanlardaki degerleri gruplandirabilir.
+//
+// 3) Bu gruplanan veriler uzerinde cesitli islemlerin gereceklestirelerek tek 
+//    bir sonuc degerinin donmesi saglanabilir.
+//
+// 4) MongoDB, 3 farklı yontem ile aggregation gerceklestirmeye izin verir.
+//     A) aggregation pipeline (toplama boru hattı) --> best practice...
+//     B) map-reduce function (map indirgeme)
+//     C) single-purpose aggregation (tek-amaç toplama) 
+//
+// 5) Aggregiation, SQL'deki Join islemlerine benzetilebilir. 
+//=================================================
+//             AGGREGATION PIPELINE
+//=================================================
+// SYNTAX
+// 
+//   pipeline = [
+//   { $match : { … }},
+//   { $group : { … }},
+//   { $sort : { … }},
+//      ...
+//   ]
+//   db.collectionName.aggregate({pipeline}, {options})
+//
+//  $match() –> Verileri secerken filtrelemek icin
+//  $group({_id : "$field"}) - >islenen verilerin gruplanmasi icin 
+//  $sort() -> Sonuclarin siralanmasi icin
+
+
+use('okul');
+db.grades.insertMany([
+{"_id":6305, "name": "A. MacDyver", "assignment":5, "points" :24},
+{"_id":6308, "name": "B. Batlock", "assignment":3, "points" :22},
+{"_id":6312, "name": "M. Tagnum", "assignment":5, "points" :30},
+{"_id":6319, "name": "R. Stiles", "assignment":2, "points" :12},
+{"_id":6322, "name": "A. MacDyver", "assignment":2, "points" :14},
+{"_id":6334, "name": "R. Stiles", "assignment":1, "points" :10},
+{"_id":6345, "name": "A. Stiles", "assignment":1, "points" :10}
+]);
+
+use('okul');
+db.grades.find();
+
+//1)her bir assignment için toplam puanları listeleyelim.
+use('okul');
+var pipeline=[
+    {$match:{}},//filtreleme yapmamıza gerek yok
+    {$group:{"_id":"$assignment", total_points:{$sum:"$points"}}}
+];
+db.grades.aggregate(pipeline);
+/*
+use('okul');
+db.grades.aggregate([
+    {$match:{}},//filtreleme yapmamıza gerek yok
+    {$group:{"_id":"$assignment", total_points:{$sum:"$points"}}}
+]);
+*/
+
+//2)her bir assingmentın ortalama puanlarını hesaplayalım,
+//artan şekilde sıralayalım.
+use('okul');
+var pipeline=[
+    {$group:{"_id":"$assignment", avg_point:{$avg:"$points"}}},
+    {$sort:{avg_point:1}}
+];
+db.grades.aggregate(pipeline);
+
+//3)her bir assingmentın minumum puanlarını hesaplayalım,
+//azalan şekilde sıralayalım.
+use('okul');
+var pipeline=[
+    {$group:{"_id":"$assignment", min_point:{$min:"$points"}}},
+    {$sort:{min_point:-1}}
+];
+db.grades.aggregate(pipeline);
+
+//4)assignment değeri 4 ten az olan herbir assignmentın
+//max puanlarını hesaplayalım, max puana göre azalan sıralayalım.
+use('okul');
+var pipeline=[{$match:{"assignment":{$lt:4}}},
+              {$group:{"_id":"$assignment", max_point:{$max:"$points"}}},
+              {$sort:{max_point:-1}}];
+db.grades.aggregate(pipeline);
+                          
+//5 ) ismi A ile başlayan dökümanların toplam point sayısını bulunuz.
+use('okul');
+var pipeline=[{$match:{"name":{$regex:"^A"}}},
+              {$group:{"_id":null, total_points:{$sum:"$points"}}}];
+db.grades.aggregate(pipeline);   
+
+use('okul');
+var pipeline=[{$match:{"name":{$regex:"^A"}}},
+              {$group:{"_id":"", total_points:{$sum:"$points"}}}];
+db.grades.aggregate(pipeline);  
+
+//6 ) ismi s ile biten dökümanların toplam point sayısını bulalım.
+use('okul');
+var pipeline=[{$match:{"name":{$regex:"s$"}}},
+              {$group:{"_id":"", total_points:{$sum:"$points"}}}];
+db.grades.aggregate(pipeline); 
+
+//7) points değeri 19 dan düşük olan dökümanların sayısını bulunuz
+
+use('okul');
+//1.yol
+//db.grades.find({"points":{$lt:19}}).count();
+//2.yol
+//db.grades.count({"points":{$lt:19}});
+//3.yol
+var pipeline=[{$match:{"points":{$lt:19}}},
+              {$count:"düşük puanlar"}];
+db.grades.aggregate(pipeline);              

@@ -1,0 +1,52 @@
+nav {
+  padding: 1rem;
+  font-style: italic;
+}
+nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+nav ul li {
+  display: inline-block;
+}
+nav ul li a {
+  display: block;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  color: orange;
+}
+
+footer a {
+  color: red;
+}
+
+.alert ul,
+.alert p,
+.warning ul,
+.warning p {
+  margin: 0;
+  padding: 0;
+}
+
+.alert ul > li {
+  list-style: none;
+}
+.alert ul > li > a {
+  color: red;
+}
+.alert ul + p {
+  margin-top: 1rem;
+}
+.alert ul ~ p {
+  text-decoration: underline;
+}
+
+.navbar a:hover {
+  color: red;
+}
+.navbar a::before {
+  content: ">";
+}
+
+/*# sourceMappingURL=02-nested.css.map */

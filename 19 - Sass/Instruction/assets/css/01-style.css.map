@@ -1,0 +1,1 @@
+{"version":3,"sourceRoot":"","sources":["..\\scss\\01-style.scss"],"names":[],"mappings":"AAAA;EACI;EACA;;;AAGJ;EACI;EACA;;;AAGJ;EACI;EACA","sourcesContent":["body {\r\n    background-color: #000;\r\n    color: #fff;\r\n}\r\n\r\nh1 {\r\n    text-align: center;\r\n    font-weight: bold;\r\n}\r\n\r\narticle {\r\n    text-align: end;\r\n    color: orangered;\r\n}\r\n"]}

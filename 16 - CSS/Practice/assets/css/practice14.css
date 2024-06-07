@@ -1,0 +1,30 @@
+section.container {
+    text-align: center;
+}
+
+section.container div.baslik {
+    position: relative;
+}
+
+section.container div.baslik span {
+    font-size: 2.5rem;
+    color: rgba(255, 0, 0, 0.2);
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+section.container div.cards {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+section.container div.cards div {
+    width: 25%;
+    border: 2px solid rgb(221, 204, 204);
+    margin-bottom: 1rem;
+    padding: 1rem;
+}

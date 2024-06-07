@@ -1,0 +1,70 @@
+[{
+  "_id": {
+    "$oid": "6413782e78854f3bd3d20475"
+  },
+  "name": "Wow",
+  "price": 500
+},{
+  "_id": {
+    "$oid": "64137a8b78854f3bd3d20476"
+  },
+  "name": "en ucuz"
+},{
+  "_id": {
+    "$oid": "64137a8b78854f3bd3d20477"
+  },
+  "name": "iphone14"
+},{
+  "_id": {
+    "$oid": "64137a8b78854f3bd3d20478"
+  },
+  "name": "Car",
+  "price": 400
+},{
+  "_id": {
+    "$oid": "64137b2f78854f3bd3d20479"
+  },
+  "name": "Wow",
+  "price": 150
+},{
+  "_id": {
+    "$oid": "64137bc678854f3bd3d2047a"
+  },
+  "price": 246,
+  "name": "Wow"
+},{
+  "_id": {
+    "$oid": "64137bc678854f3bd3d2047b"
+  },
+  "name": "radio",
+  "tax": 8
+},{
+  "_id": {
+    "$oid": "64137c6401f15bcf398952cf"
+  },
+  "name": "en pahalı",
+  "price": 450
+},{
+  "_id": {
+    "$oid": "6414a60b9a4936104e1d4aac"
+  },
+  "name": "Wow",
+  "price": 300
+},{
+  "_id": {
+    "$oid": "6414a6d29a4936104e1d4aae"
+  },
+  "name": "laptop",
+  "brand": "TOSHIBA"
+},{
+  "_id": {
+    "$oid": "6414a85f9a4936104e1d4ab0"
+  },
+  "name": "smartphone"
+},{
+  "_id": {
+    "$oid": "6415ffcf0ad630d44b97efb1"
+  },
+  "price": 500,
+  "name": "Wow"
+}]
